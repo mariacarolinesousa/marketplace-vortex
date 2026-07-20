@@ -2,7 +2,6 @@
 Marketplace de Economia Circular para estudantes.
 
 ## Tecnologias
-
 - React
 - Node
 - Express
