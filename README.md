@@ -1,5 +1,4 @@
 # ReCampus
-
 Marketplace de Economia Circular para estudantes.
 
 ## Tecnologias
@@ -11,4 +10,5 @@ Marketplace de Economia Circular para estudantes.
 - Prisma
 
 ## Status
-em desenvolvimento
+Em desenvolvimento
+
