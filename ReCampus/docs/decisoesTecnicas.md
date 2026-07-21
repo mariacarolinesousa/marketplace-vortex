@@ -1,33 +1,27 @@
-Frontend:
+# Decisões Técnicas
 
-React
+## Frontend
 
-TypeScript
+- React
+- Vite
+- TypeScript
+- React Router
 
-Vite
+## Backend
 
-React Router
+- Node.js
+- Express
+- Prisma
 
-Axios
+## Banco
 
+- PostgreSQL
 
+## Deploy
 
-Backend:
+- Vercel
+- Render
 
-Node
+## PWA
 
-Express
-
-Prisma
-
-Banco:
-
-PostgreSQL
-
-Deploys:
-
-Vercel
-
-Render
-
-Supabase
+- vite-plugin-pwa
