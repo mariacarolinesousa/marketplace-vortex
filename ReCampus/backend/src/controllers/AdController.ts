@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import prisma from "../config/prisma";
-
+import { adSchema } from "../validations/adValidation";
 export class AdController {
 
   async create(req: Request, res: Response) {
@@ -9,18 +9,31 @@ export class AdController {
         title,
         description,
         category,
+        condition,
+        location,
         price,
         imageUrl,
         isDonation
       } = req.body;
+      
 
       const userId = req.userId
+
+      const validation = adSchema.safeParse(req.body);
+
+    if (!validation.success) {
+      return res.status(400).json({
+      errors: validation.error.flatten().fieldErrors
+    });
+  }
 
       const ad = await prisma.ad.create({
         data: {
           title,
           description,
           category,
+          condition,
+          location,
           price,
           imageUrl,
           isDonation,
