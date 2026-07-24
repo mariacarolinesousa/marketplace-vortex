@@ -35,7 +35,8 @@ model Ad {
   price       Decimal?
   imageUrl    String
   isDonation  Boolean @default(false)
-
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
 
   userId String
   user   User @relation(fields: [userId], references: [id])
