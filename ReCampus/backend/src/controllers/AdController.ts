@@ -84,7 +84,9 @@ export class AdController {
           id: req.params.id
         },
         include: {
-          user: true
+          user: true,
+          name: true,
+          email: true
         }
       });
 
@@ -143,5 +145,40 @@ export class AdController {
       });
     }
   }
+
+  static async update(req: Request, res: Response) {
+
+  const { id } = req.params;
+  const userId = req.userId;
+
+  const ad = await prisma.ad.findUnique({
+    where: {
+      id
+    }
+  });
+
+  if (!ad) {
+    return res.status(404).json({
+      message: "Anúncio não encontrado"
+    });
+  }
+
+  if (ad.userId !== userId) {
+    return res.status(403).json({
+      message: "Você não pode editar esse anúncio"
+    });
+  }
+
+
+  const updatedAd = await prisma.ad.update({
+    where: {
+      id
+    },
+    data: req.body
+  });
+
+
+  return res.json(updatedAd);
+}
 
 }

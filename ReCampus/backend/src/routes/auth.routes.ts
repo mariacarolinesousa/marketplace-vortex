@@ -13,4 +13,10 @@ router.post("/login", (req, res) => {
     authController.login(req, res);
 });
 
+router.post(
+  "/login",
+  AuthController.login
+);
+
+
 export default router;
