@@ -7,6 +7,5 @@ export const adSchema = z.object({
   condition: z.string().min(2),
   location: z.string().min(2),
   price: z.number().nonnegative(),
-  imageUrl: z.string().url(),
   isDonation: z.boolean()
 });

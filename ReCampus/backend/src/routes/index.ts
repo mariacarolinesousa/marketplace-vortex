@@ -1,18 +1,19 @@
-import type { Request, Response } from "express";
-const { Router } = require("express");
-const authRoutes = require("./auth.routes");
-const adRoutes = require("./ad.routes");
-const { userRoutes } = require("./user.routes");
+import type { Router, Request, Response } from "express";
+import authRoutes from "./auth.routes";
+import adRoutes from "./ad.routes";
+import userRoutes  from "./user.routes";
+import favoriteRoutes from "./favorite.routes";
 
 const router = Router();
 
 router.use("/users", userRoutes);
 router.use("/ads", adRoutes);
 router.use("/auth", authRoutes);
+router.use("/favorites", favoriteRoutes);
 router.get("/", (_req: Request, res: Response) => {
   res.json({
     message: "API ReCampus funcionando!"
   });
 });
 
-module.exports = router;
+export default router;

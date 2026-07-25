@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import prisma from "../config/prisma";
+import type { Request, Response } from "express";
+const prisma = require("../config/prisma");
 
 export class UserController {
 

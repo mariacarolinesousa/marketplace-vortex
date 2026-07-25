@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../config/prisma";
 import { adSchema } from "../validations/adValidation";
+import { uploadImage } from "../services/uploadImage";
 
 export class AdController {
 
@@ -22,11 +23,16 @@ export class AdController {
         condition,
         location,
         price,
-        imageUrl,
         isDonation
       } = validation.data;
 
       const userId = req.userId;
+
+      let imageUrl = "";
+
+      if (req.file) {
+        imageUrl = await uploadImage(req.file);
+      }
 
       const ad = await prisma.ad.create({
         data: {

@@ -1,14 +1,16 @@
 import { Router } from "express";
 import { AdController } from "../controllers/AdController";
-import { auth } from "../middlewares/auth";
+import { authMiddleware } from "../middlewares/auth";
+import { upload } from "../config/multer";
 
 const router = Router();
-const adController = new AdController();
+const controller = new AdController();
 
-router.post("/", auth, adController.create.bind(adController));
-router.get("/", adController.list.bind(adController));
-router.get("/:id", adController.show.bind(adController));
-router.put("/:id", auth, adController.update.bind(adController));
-router.delete("/:id", auth, adController.delete.bind(adController));
+router.post("/", authMiddleware, controller.create.bind(controller));
+router.get("/", controller.list.bind(controller));
+router.get("/:id", controller.show.bind(controller));
+router.put("/:id", authMiddleware, controller.update.bind(controller));
+router.delete("/:id", authMiddleware, controller.delete.bind(controller));
+router.post("/", upload.single("image"), AdController.create);
 
 export default router;
