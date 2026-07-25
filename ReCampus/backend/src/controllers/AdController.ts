@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../config/prisma";
 import { adSchema } from "../validations/adValidation";
-import { uploadImage } from "../services/uploadImage";
+import { uploadImage, deleteImage } from "../services/uploadImage";
 
 export class AdController {
 
@@ -28,11 +28,20 @@ export class AdController {
 
       const userId = req.userId;
 
+      const file = req.file;
+
+      if (!file) {
+        return res.status(400).json({
+          message: "Imagem obrigatória."
+         });
+}
+
       let imageUrl = "";
 
       if (req.file) {
         imageUrl = await uploadImage(req.file);
       }
+
 
       const ad = await prisma.ad.create({
         data: {
@@ -63,41 +72,51 @@ export class AdController {
   try {
 
     const { category, location, search } = req.query;
+
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    const ads = await prisma.ad.findMany({
-      where: {
-        ...(category && {
-          category: String(category)
-        }),
 
-        ...(location && {
-          location: {
-            contains: String(location)
-          }
-        }),
+    const where = {
+      ...(category && {
+        category: String(category)
+      }),
 
-        ...(search && {
-          OR: [
-            {
-              title: {
-                contains: String(search)
-                
-              }
-            },
-            {
-              description: {
-                contains: String(search)
-              }
+      ...(location && {
+        location: {
+          contains: String(location),
+          mode: "insensitive"
+        }
+      }),
+
+      ...(search && {
+        OR: [
+          {
+            title: {
+              contains: String(search),
+              mode: "insensitive"
             }
-          ]
-        })
-      },
+          },
+          {
+            description: {
+              contains: String(search),
+              mode: "insensitive"
+            }
+          }
+        ]
+      })
+    };
+
+    const total = await prisma.ad.count({
+      where
+    });
+
+    const ads = await prisma.ad.findMany({
+      where,
       orderBy: {
         createdAt: "desc"
       },
-        skip,
+      skip,
       take: limit,
       include: {
         user: {
@@ -108,21 +127,25 @@ export class AdController {
         }
       }
     });
-    return res.json(ads)({
+
+    return res.json({
       page,
       limit,
       total,
       totalPages: Math.ceil(total / limit),
       ads
     });
+
   } catch (error) {
+
     console.error(error);
 
     return res.status(500).json({
-    error: String(error)
-      });
-    }
+      error: String(error)
+    });
+
   }
+}
   async show(req: Request, res: Response) {
     try {
 
@@ -224,11 +247,16 @@ export class AdController {
         });
       }
 
+      if (ad.imageUrl) {
+  await deleteImage(ad.imageUrl);
+}
+
+
       await prisma.ad.delete({
-        where: {
-          id
-        }
-      });
+      where: {
+      id
+      }
+        });
 
       return res.status(204).send();
 

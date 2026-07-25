@@ -6,6 +6,6 @@ export const adSchema = z.object({
   category: z.string().min(2),
   condition: z.string().min(2),
   location: z.string().min(2),
-  price: z.number().nonnegative(),
-  isDonation: z.boolean()
+  price: z.coerce.number(),
+  isDonation: z.coerce.boolean()
 });

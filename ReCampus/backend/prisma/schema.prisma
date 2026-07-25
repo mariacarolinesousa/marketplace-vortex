@@ -26,7 +26,7 @@ model Ad {
   condition   String
   location    String
   price       Decimal?
-  imageUrl    String
+  imageUrl    String 
   status      String   @default("ACTIVE")
   views       Int      @default(0)
   isDonation  Boolean  @default(false)

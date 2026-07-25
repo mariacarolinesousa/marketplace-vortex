@@ -1,4 +1,4 @@
-import type { Router, Request, Response } from "express";
+import { Router, type Request, type Response } from "express";
 import authRoutes from "./auth.routes";
 import adRoutes from "./ad.routes";
 import userRoutes  from "./user.routes";
