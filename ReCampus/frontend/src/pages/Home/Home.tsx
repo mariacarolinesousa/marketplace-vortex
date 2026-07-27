@@ -3,14 +3,20 @@ import Layout from "../../components/Layout/Layout";
 import AdCard from "../../components/AdCard/AdCard";
 import { api } from "../../services/api";
 import type{ Ad } from "../../types/Ad";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 export default function Home() {
   const [ads, setAds] = useState<Ad[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
 
   async function loadAds() {
   try {
-    const response = await api.get("/ads");
+    const response = await api.get("/ads", {
+  params: {
+    search,
+    },
+  });
 
     console.log("Resposta da API:", response.data);
 
@@ -23,8 +29,8 @@ export default function Home() {
 }
 
 useEffect(() => {
-  console.log("Ads:", ads);
-}, [ads]);
+  loadAds();
+}, [search]);
 
   return (
     <Layout>
@@ -32,6 +38,8 @@ useEffect(() => {
       <h1 className="text-4xl font-bold mb-8">
         Últimos anúncios
       </h1>
+
+      <SearchBar onSearch={setSearch} />
 
       {loading && (
         <p>Carregando anúncios...</p>

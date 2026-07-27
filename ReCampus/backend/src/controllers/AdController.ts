@@ -8,110 +8,98 @@ export class AdController {
 
 
   async create(req: Request, res: Response) {
+  try {
+    console.log("Body:", req.body);
+    console.log("File:", req.file);
+    console.log("User:", req.userId);
 
-    try {
+    const validation = adSchema.safeParse(req.body);
 
-      const validation = adSchema.safeParse(req.body);
+    if (!validation.success) {
+      return res.status(400).json({
+        errors: validation.error.flatten().fieldErrors,
+      });
+    }
 
+    const {
+      title,
+      description,
+      category,
+      condition,
+      location,
+      price,
+      isDonation,
+    } = validation.data;
 
-      if (!validation.success) {
+    const userId = req.userId;
 
-        return res.status(400).json({
-          errors: validation.error.flatten().fieldErrors
-        });
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Imagem obrigatória.",
+      });
+    }
 
-      }
+    const imageUrl = await uploadImage(req.file);
 
-
-      const {
+    const ad = await prisma.ad.create({
+      data: {
         title,
         description,
         category,
         condition,
         location,
         price,
-        isDonation
-      } = validation.data;
+        imageUrl,
+        isDonation,
+        userId,
+      },
+    });
 
+    return res.status(201).json(ad);
+  } catch (error) {
+    console.error("Erro ao criar anúncio:");
+    console.error(error);
 
-      const userId = req.userId;
-
-
-      const file = req.file;
-
-
-      if (!file) {
-
-        return res.status(400).json({
-          message: "Imagem obrigatória."
-        });
-
-      }
-
-
-      const imageUrl = await uploadImage(file);
-
-
-      const ad = await prisma.ad.create({
-
-        data: {
-
-          title,
-
-          description,
-
-          category,
-
-          condition,
-
-          location,
-
-          price,
-
-          imageUrl,
-
-          isDonation,
-
-          userId
-
-        }
-
-      });
-
-
-      return res.status(201).json(ad);
-
-
-
-    } catch (error) {
-
-
-      console.error(error);
-
-
-      return res.status(500).json({
-
-        message: "Erro ao criar anúncio."
-
-      });
-
-
-    }
-
+    return res.status(500).json({
+      message: "Erro interno.",
+      error: String(error),
+    });
   }
+}
 
   async list(req: Request, res: Response) {
   try {
-    const ads = await prisma.ad.findMany({
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
+  const { search } = req.query;
+
+const ads = await prisma.ad.findMany({
+  where: search
+    ? {
+        OR: [
+          {
+            title: {
+              contains: String(search),
+              mode: "insensitive",
+            },
           },
-        },
+          {
+            description: {
+              contains: String(search),
+              mode: "insensitive",
+            },
+          },
+        ],
+      }
+    : undefined,
+
+  include: {
+    user: {
+      select: {
+        id: true,
+        name: true,
       },
-    });
+    },
+  },
+});
 
     return res.json(ads);
   } catch (error) {

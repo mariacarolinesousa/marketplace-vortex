@@ -1,15 +1,35 @@
-import { Routes, Route } from "react-router-dom";
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
-import Register from "../pages/Register/Register";
+import CreateAd from "../pages/CreateAd/CreateAd";
+import PrivateRoute from "./PrivateRoute";
 
 export default function AppRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+
+        <Route
+          path="/"
+          element={<Home />}
+        />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/create"
+          element={
+            <PrivateRoute>
+              <CreateAd />
+            </PrivateRoute>
+          }
+        />
+
+      </Routes>
+    </BrowserRouter>
   );
 }
+      
