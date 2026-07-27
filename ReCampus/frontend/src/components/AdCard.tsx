@@ -1,4 +1,4 @@
-import { Ad } from "../../types/Ad";
+import type { Ad } from "../../types/Ad";
 
 interface Props {
   ad: Ad;

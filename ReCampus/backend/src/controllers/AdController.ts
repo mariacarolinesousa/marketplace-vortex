@@ -100,259 +100,28 @@ export class AdController {
 
   }
 
-    async list(req: Request, res: Response) {
-
-    try {
-
-      const {
-        category,
-        location,
-        search,
-        condition,
-        sort
-      } = req.query;
-
-
-      const page = Number(req.query.page) || 1;
-
-      const limit = Number(req.query.limit) || 10;
-
-      const skip = (page - 1) * limit;
-
-
-      const minPrice = req.query.minPrice
-        ? Number(req.query.minPrice)
-        : undefined;
-
-
-      const maxPrice = req.query.maxPrice
-        ? Number(req.query.maxPrice)
-        : undefined;
-
-
-      const isDonation =
-        req.query.isDonation !== undefined
-          ? req.query.isDonation === "true"
-          : undefined;
-
-
-
-      const where = {
-
-        ...(category && {
-
-          category: String(category)
-
-        }),
-
-
-
-        ...(condition && {
-
-          condition: String(condition)
-
-        }),
-
-
-
-        ...(location && {
-
-          location: {
-
-            contains: String(location),
-
-            mode: "insensitive"
-
-          }
-
-        }),
-
-
-
-        ...(search && {
-
-          OR: [
-
-            {
-
-              title: {
-
-                contains: String(search),
-
-                mode: "insensitive"
-
-              }
-
-            },
-
-            {
-
-              description: {
-
-                contains: String(search),
-
-                mode: "insensitive"
-
-              }
-
-            },
-
-            {
-
-              category: {
-
-                contains: String(search),
-
-                mode: "insensitive"
-
-              }
-
-            }
-
-          ]
-
-        }),
-
-
-
-        ...(isDonation !== undefined && {
-
-          isDonation
-
-        }),
-
-
-
-        ...((minPrice !== undefined || maxPrice !== undefined) && {
-
-          price: {
-
-            ...(minPrice !== undefined && {
-
-              gte: minPrice
-
-            }),
-
-
-            ...(maxPrice !== undefined && {
-
-              lte: maxPrice
-
-            })
-
-          }
-
-        })
-
-      };
-
-
-
-      const total = await prisma.ad.count({
-
-        where
-
-      });
-
-
-
-      let orderBy = {
-
-        createdAt: "desc"
-
-      };
-
-
-
-      if (sort === "price_asc") {
-
-        orderBy = {
-
-          price: "asc"
-
-        } as any;
-
-      }
-
-
-      if (sort === "price_desc") {
-
-        orderBy = {
-
-          price: "desc"
-
-        } as any;
-
-      }
-
-
-
-      const ads = await prisma.ad.findMany({
-
-        where,
-
-
-        orderBy,
-
-
-        skip,
-
-
-        take: limit,
-
-
-        include: {
-
-          user: {
-
-            select: {
-
-              id: true,
-
-              name: true
-
-            }
-
-          }
-
-        }
-
-      });
-
-
-
-      return res.json({
-
-        page,
-
-        limit,
-
-        total,
-
-        totalPages: Math.ceil(total / limit),
-
-        ads
-
-      });
-
-
-
-    } catch (error) {
-
-
-      console.error(error);
-
-
-      return res.status(500).json({
-
-        message: "Erro ao listar anúncios."
-
-      });
-
-
-    }
-
+  async list(req: Request, res: Response) {
+  try {
+    const ads = await prisma.ad.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    return res.json(ads);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      error: String(error),
+    });
   }
+}
 
     async show(req: Request, res: Response) {
 

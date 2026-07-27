@@ -9,20 +9,22 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   async function loadAds() {
-    try {
-      const response = await api.get("/ads");
+  try {
+    const response = await api.get("/ads");
 
-      setAds(response.data.ads ?? response.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    console.log("Resposta da API:", response.data);
+
+    setAds(response.data.ads ?? response.data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
   }
+}
 
-  useEffect(() => {
-    loadAds();
-  }, []);
+useEffect(() => {
+  console.log("Ads:", ads);
+}, [ads]);
 
   return (
     <Layout>
