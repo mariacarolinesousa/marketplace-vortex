@@ -3,6 +3,7 @@ import { AdController } from "../controllers/AdController";
 import { auth } from "../middlewares/auth";
 import { upload } from "../config/multer";
 
+
 const router = Router();
 const controller = new AdController();
 
@@ -15,6 +16,12 @@ router.post(
 router.get(
   "/",
   controller.list.bind(controller)
+);
+
+router.get(
+  "/my",
+  auth,
+  controller.myAds.bind(controller)
 );
 router.get(
   "/:id",

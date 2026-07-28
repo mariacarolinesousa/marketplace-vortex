@@ -16,9 +16,8 @@ export class AdController {
     const validation = adSchema.safeParse(req.body);
 
     if (!validation.success) {
-      return res.status(400).json({
-        errors: validation.error.flatten().fieldErrors,
-      });
+      return res.status(400).json
+         (validation.error);
     }
 
     const {
@@ -215,9 +214,16 @@ const ads = await prisma.ad.findMany({
     try {
 
       const { id } = req.params;
-
       const userId = req.userId;
-
+      const {
+      title,
+      description,
+      category,
+      condition,
+      location,
+      price,
+      isDonation,
+            } = req.body;
 
 
       const ad = await prisma.ad.findUnique({
@@ -278,19 +284,26 @@ const ads = await prisma.ad.findMany({
       const updatedAd = await prisma.ad.update({
 
         where: {
-
           id
-
         },
 
-
         data: {
+          title: req.body.title,
 
-          ...req.body,
+        description: req.body.description,
 
-          imageUrl
+        category: req.body.category,
 
-        }
+        condition: req.body.condition,
+
+        location: req.body.location,
+
+        price: req.body.price,
+
+        isDonation: req.body.isDonation === "true",
+
+        imageUrl
+  },
 
       });
 
@@ -406,4 +419,28 @@ const ads = await prisma.ad.findMany({
 
   }
 
+  async myAds(req: Request, res: Response) {
+  try {
+
+    const userId = req.userId;
+
+    const ads = await prisma.ad.findMany({
+      where: {
+        userId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return res.json(ads);
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Erro ao listar anúncios.",
+    });
+  }
+}
 }

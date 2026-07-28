@@ -5,6 +5,8 @@ import { api } from "../../services/api";
 import type{ Ad } from "../../types/Ad";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
+const [search, setSearch] = useState("");
+
 export default function Home() {
   const [ads, setAds] = useState<Ad[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,8 +34,27 @@ useEffect(() => {
   loadAds();
 }, [search]);
 
+const filteredAds = ads.filter((ad) => {
+  return (
+    ad.title.toLowerCase().includes(search.toLowerCase()) ||
+    ad.description.toLowerCase().includes(search.toLowerCase()) ||
+    ad.category.toLowerCase().includes(search.toLowerCase())
+  );
+});
+
   return (
     <Layout>
+      <section className="bg-blue-600 rounded-2xl p-12 text-white mb-10">
+
+  <h1 className="text-5xl font-bold">
+    Encontre tudo para a sua vida universitária
+  </h1>
+
+  <p className="mt-4 text-xl">
+    Compre, venda ou doe produtos entre estudantes.
+  </p>
+
+    </section>
 
       <h1 className="text-4xl font-bold mb-8">
         Últimos anúncios
@@ -48,10 +69,14 @@ useEffect(() => {
       {!loading && ads.length === 0 && (
         <p>Nenhum anúncio encontrado.</p>
       )}
+        <SearchBar
+        value={search}
+        onChange={setSearch}
+        />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        {ads.map((ad) => (
+        {filteredAds.map((ad) => (
           <AdCard
             key={ad.id}
             ad={ad}

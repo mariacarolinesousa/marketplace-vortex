@@ -5,7 +5,6 @@ import Layout from "../../components/Layout/Layout";
 
 export default function CreateAd() {
   const navigate = useNavigate();
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");

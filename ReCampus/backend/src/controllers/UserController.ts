@@ -12,19 +12,23 @@ export class UserController {
         where: {
           id: req.userId
         },
-
         select: {
           id: true,
           name: true,
-          email: true,
-          createdAt: true
+          email: true
         }
-
       });
+
+      if (!user) {
+        return res.status(404).json({
+          message: "Usuário não encontrado.",
+        });
+      }
 
       return res.json(user);
 
-    } catch {
+    } catch (error) {
+      console.error(error);
 
       return res.status(500).json({
         message: "Erro interno."

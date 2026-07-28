@@ -1,12 +1,14 @@
 import type { Ad } from "../../types/Ad";
+import { Link } from "react-router-dom";
 
 interface Props {
   ad: Ad;
 }
 
-export default function AdCard({ ad }: Props) {
+export default function AdCard({ ad }: Props) 
+<Link to={`/ads${ad.id}`}>
   return (
-    <div className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+    <div className="bg-white rounded-xl shadow hover:shadow-xl transition">
 
       <img
         src={ad.imageUrl}
@@ -45,5 +47,6 @@ export default function AdCard({ ad }: Props) {
       </div>
 
     </div>
+
+    </Link>
   );
-}

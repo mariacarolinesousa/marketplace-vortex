@@ -1,24 +1,19 @@
 import { useState } from "react";
 
 interface Props {
+  value: string;
   onSearch: (value: string) => void;
 }
 
-export default function SearchBar({ onSearch }: Props) {
-  const [search, setSearch] = useState("");
-
+export default function SearchBar({ value, onChange }: Props) {
   return (
-    <div className="mb-8">
       <input
         type="text"
         placeholder="Pesquisar anúncios..."
         className="w-full border rounded-lg p-4"
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          onSearch(e.target.value);
-        }}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full border rounded-lg p-3 shadow-sm"
       />
-    </div>
   );
 }
