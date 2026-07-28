@@ -4,13 +4,14 @@ import AdCard from "../../components/AdCard/AdCard";
 import { api } from "../../services/api";
 import type{ Ad } from "../../types/Ad";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import Filters from "../../components/Filters/Filters";
 
 const [search, setSearch] = useState("");
+const [category, setCategory] = useState("");
 
 export default function Home() {
   const [ads, setAds] = useState<Ad[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
 
   async function loadAds() {
   try {
@@ -33,8 +34,21 @@ export default function Home() {
 useEffect(() => {
   loadAds();
 }, [search]);
-
 const filteredAds = ads.filter((ad) => {
+
+  const matchesTitle = ad.title
+    .toLowerCase()
+    .includes(search.toLowerCase());
+
+  const matchesCategory =
+    category === "" ||
+    ad.category === category;
+
+  return matchesTitle && matchesCategory;
+
+});
+
+const filteredAds.map = ads.filter((ad) => {
   return (
     ad.title.toLowerCase().includes(search.toLowerCase()) ||
     ad.description.toLowerCase().includes(search.toLowerCase()) ||
@@ -72,6 +86,12 @@ const filteredAds = ads.filter((ad) => {
         <SearchBar
         value={search}
         onChange={setSearch}
+        />
+        <Filters
+         search={search}
+        category={category}
+        onSearchChange={setSearch}
+        onCategoryChange={setCategory}
         />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
