@@ -5,6 +5,8 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import CreateAd from "./pages/CreateAd/CreateAd";
+import Landing from "./pages/Landing/Landing";
+
 
 export default function App() {
   return (
@@ -35,6 +37,11 @@ export default function App() {
       <Route 
         path="/profile" 
         element={<Profile />} 
+      />
+
+      <Route
+      path="/landing"
+      element={<Landing />}
       />
 
     </Routes>

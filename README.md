@@ -1,4 +1,4 @@
-# 🚀 ReCampus
+# ReCampus
 
 ## Marketplace Universitário
 
@@ -6,9 +6,9 @@ O **ReCampus** é uma plataforma de marketplace desenvolvida para facilitar a co
 
 A proposta é criar um ambiente seguro e organizado onde alunos possam anunciar materiais, livros, eletrônicos, móveis e outros itens relacionados à vida acadêmica.
 
-# 📌 Funcionalidades
+# Funcionalidades
 
-## 👤 Usuários
+## Usuários
 
 * Cadastro de usuários
 * Login com autenticação JWT
@@ -16,7 +16,7 @@ A proposta é criar um ambiente seguro e organizado onde alunos possam anunciar 
 * Logout
 * Controle de acesso por autenticação
 
-## 📦 Anúncios
+##  Anúncios
 
 * Criar anúncios
 * Editar anúncios próprios
@@ -27,13 +27,13 @@ A proposta é criar um ambiente seguro e organizado onde alunos possam anunciar 
 * Filtros por categoria
 * Suporte para produtos à venda ou doação
 
-## 🖼️ Imagens
+##  Imagens
 
 * Upload de imagens dos anúncios
 * Armazenamento utilizando Supabase Storage
 * Exibição das imagens diretamente nos anúncios
 
-## 📱 Progressive Web App (PWA)
+##  Progressive Web App (PWA)
 
 O ReCampus possui suporte a PWA, permitindo:
 
@@ -41,7 +41,7 @@ O ReCampus possui suporte a PWA, permitindo:
 * Execução como aplicativo
 * Experiência semelhante a um aplicativo nativo
 
-# 🛠️ Tecnologias utilizadas
+#  Tecnologias utilizadas
 
 ## Frontend
 
@@ -68,31 +68,31 @@ O ReCampus possui suporte a PWA, permitindo:
 * Supabase Database
 * Supabase Storage
 
----
 
-# 🏗️ Arquitetura do projeto
+
+#  Arquitetura do projeto
 
 ```
 ReCampus
 
-├── frontend
-│   ├── src
-│   │   ├── components
-│   │   ├── pages
-│   │   ├── services
-│   │   ├── contexts
-│   │   └── types
-│
-└── backend
-    ├── src
-    │   ├── controllers
-    │   ├── routes
-    │   ├── services
-    │   ├── middlewares
-    │   └── config
+    frontend
+        src
+         components
+         pages
+         services
+         contexts
+         types
+
+     backend
+        src
+         controllers
+    │    routes
+    │    services
+    │    middlewares
+    │    config
 ```
 
-# ⚙️ Como executar o projeto
+#  Como executar o projeto
 
 ## Pré-requisitos
 
@@ -164,7 +164,7 @@ npm run dev
 A aplicação estará disponível no endereço informado pelo Vite.
 
 
-# 🔐 Autenticação
+#  Autenticação
 
 O sistema utiliza autenticação baseada em JWT.
 
@@ -184,7 +184,7 @@ Frontend salva token
 Acesso às rotas protegidas
 ```
 
-# 📸 Demonstração
+#  Demonstração
 
 ## Tela inicial
 
@@ -202,7 +202,7 @@ Usuários podem publicar produtos com imagens e informações detalhadas.
 
 Usuários podem editar e remover seus próprios anúncios.
 
-# 🎯 Objetivo do projeto
+#  Objetivo do projeto
 
 O ReCampus tem como objetivo aplicar conhecimentos de desenvolvimento Full Stack, integrando:
 
@@ -214,7 +214,7 @@ O ReCampus tem como objetivo aplicar conhecimentos de desenvolvimento Full Stack
 * Desenvolvimento de aplicações instaláveis com PWA.
 
 
-# 🚧 Melhorias futuras
+#  Melhorias futuras
 
 Algumas funcionalidades planejadas:
 
@@ -226,10 +226,11 @@ Algumas funcionalidades planejadas:
 * Recomendações inteligentes utilizando IA
 
 
-# 👩‍💻 Desenvolvimento
+#  Desenvolvimento
 
 Projeto desenvolvido como aplicação Full Stack utilizando tecnologias modernas de desenvolvimento web.
 
-# 📄 Licença
+# Licença
 
 Este projeto foi desenvolvido para fins acadêmicos e de estudo.
+
