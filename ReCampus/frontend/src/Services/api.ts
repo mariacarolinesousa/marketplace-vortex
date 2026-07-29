@@ -1,12 +1,16 @@
 import axios from "axios";
 
+console.log("API carregada corretamente");
+
 export const api = axios.create({
   baseURL: "http://localhost:3333",
 });
+
 api.interceptors.request.use((config) => {
+  console.log("Interceptor executado");
+
   const token = localStorage.getItem("token");
-  localStorage.setItem("token", response.data.token);
-  localStorage.setItem("user", JSON.stringify(response.data.user));
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

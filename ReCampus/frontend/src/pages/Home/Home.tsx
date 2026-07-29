@@ -3,15 +3,15 @@ import Layout from "../../components/Layout/Layout";
 import AdCard from "../../components/AdCard/AdCard";
 import { api } from "../../services/api";
 import type{ Ad } from "../../types/Ad";
-import SearchBar from "../../components/SearchBar/SearchBar";
+import Searchbar from "../../components/Searchbar/Searchbar";
 import Filters from "../../components/Filters/Filters";
 
-const [search, setSearch] = useState("");
-const [category, setCategory] = useState("");
 
 export default function Home() {
   const [ads, setAds] = useState<Ad[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
 
   async function loadAds() {
   try {
@@ -48,13 +48,6 @@ const filteredAds = ads.filter((ad) => {
 
 });
 
-const filteredAds.map = ads.filter((ad) => {
-  return (
-    ad.title.toLowerCase().includes(search.toLowerCase()) ||
-    ad.description.toLowerCase().includes(search.toLowerCase()) ||
-    ad.category.toLowerCase().includes(search.toLowerCase())
-  );
-});
 
   return (
     <Layout>
@@ -74,8 +67,6 @@ const filteredAds.map = ads.filter((ad) => {
         Últimos anúncios
       </h1>
 
-      <SearchBar onSearch={setSearch} />
-
       {loading && (
         <p>Carregando anúncios...</p>
       )}
@@ -83,12 +74,12 @@ const filteredAds.map = ads.filter((ad) => {
       {!loading && ads.length === 0 && (
         <p>Nenhum anúncio encontrado.</p>
       )}
-        <SearchBar
+        <Searchbar
         value={search}
         onChange={setSearch}
         />
         <Filters
-         search={search}
+        search={search}
         category={category}
         onSearchChange={setSearch}
         onCategoryChange={setCategory}

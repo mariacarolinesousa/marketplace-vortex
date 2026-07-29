@@ -5,10 +5,9 @@ export interface Ad {
   category: string;
   condition: string;
   location: string;
-  price: number;
+  price: number | null;
   imageUrl: string;
   isDonation: boolean;
-  views: number;
   user: {
     id: string;
     name: string;

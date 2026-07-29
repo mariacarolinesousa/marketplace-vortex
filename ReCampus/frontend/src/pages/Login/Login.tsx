@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { api } from "../../services/api";
+import { Link } from "react-router-dom";
+
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -8,7 +12,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: any) {
     e.preventDefault();
 
     try {
@@ -17,7 +21,11 @@ export default function Login() {
         password,
       });
 
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem(
+        "token",
+        response.data.token
+      );
+
       localStorage.setItem(
         "user",
         JSON.stringify(response.data.user)
@@ -26,9 +34,22 @@ export default function Login() {
       alert("Login realizado com sucesso!");
 
       navigate("/");
+
     } catch (error) {
-      console.error(error);
-      alert("E-mail ou senha inválidos.");
+      if (axios.isAxiosError(error)) {
+        console.log(
+          "Erro backend:",
+          error.response?.data
+        );
+
+        alert(
+          error.response?.data?.message ||
+          "Erro ao fazer login"
+        );
+      } else {
+        console.error(error);
+        alert("Erro desconhecido");
+      }
     }
   }
 
@@ -37,6 +58,13 @@ export default function Login() {
       <h1 className="text-3xl font-bold mb-6">
         Entrar
       </h1>
+
+      <Link
+      to="/register"
+      className="block text-center text-blue-600 mt-4 hover:underline"
+      >
+      Criar uma conta
+      </Link>
 
       <form
         onSubmit={handleLogin}
@@ -59,6 +87,7 @@ export default function Login() {
         />
 
         <button
+          type="submit"
           className="bg-blue-600 text-white px-6 py-3 rounded w-full"
         >
           Entrar

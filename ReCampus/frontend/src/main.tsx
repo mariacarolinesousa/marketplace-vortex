@@ -1,13 +1,20 @@
-import { StrictMode } from "react";
+import "./index.css";
 import { createRoot } from "react-dom/client";
-import "./index.css"
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
-import { AuthProvider } from "./contexts/AuthContext";
+import { registerSW } from "virtual:pwa-register";
 
+registerSW({
+  onNeedRefresh() {
+    console.log("Nova versão disponível");
+  },
+
+  onOfflineReady() {
+    console.log("Aplicativo pronto offline");
+  },
+});
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <AuthProvider>
+  <BrowserRouter>
       <App />
-    </AuthProvider>
-  </StrictMode>
+    </BrowserRouter>
 );

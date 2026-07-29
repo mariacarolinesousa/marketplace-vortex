@@ -41,19 +41,22 @@ export default function Navbar() {
           </Link>
 
           {token && (
-            <Link
-              to="/create"
-              className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold"
-            >
-              <Link
-              to="/my-ads"
-              className="text-white"
-              >
-              Meus anúncios
-              </Link>
-              Publicar anúncio
-            </Link>
-          )}
+          <>
+          <Link
+          to="/my-ads"
+          className="text-white hover:text-gray-200"
+          >
+         Meus anúncios
+        </Link>
+
+        <Link
+        to="/create"
+        className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100"
+        >
+        Publicar anúncio
+        </Link>
+        </>
+      )}
 
           {!token ? (
             <Link
