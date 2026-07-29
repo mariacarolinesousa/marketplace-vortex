@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import Layout from "../../components/Layout/Layout";
 
 export default function CreateAd() {
-  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -45,19 +43,15 @@ export default function CreateAd() {
     });
 
     try {
-      await api.post("/ads", formData);
-
-      alert("Anúncio criado com sucesso!");
-
-      navigate("/");
-    } catch (error: any) {
+      await api.post("/ads", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+    } catch (error) {
       console.error(error);
-      console.log(error.response);
-      alert(
-        error.response?.data?.message ??
-        JSON.stringify(error.response?.data) ??
-        "Erro ao criar Anúncio."
-      );
+      alert("Erro ao enviar o anúncio.");
     }
   }
 

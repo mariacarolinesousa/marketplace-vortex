@@ -1,3 +1,5 @@
+import MyAds from "./pages/MyAds/MyAds";
+import Profile from "./pages/Profile/Profile";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
@@ -24,6 +26,16 @@ export default function App() {
       />
 
       <Route path="/create" element={<CreateAd />} />
+
+      <Route 
+        path="/my-ads" 
+        element={<MyAds />} 
+      />
+
+      <Route 
+        path="/profile" 
+        element={<Profile />} 
+      />
 
     </Routes>
 
