@@ -52,7 +52,7 @@ O ReCampus possui suporte a PWA, permitindo:
 * React Router DOM
 * Axios
 
-## Backend
+## Backend  https://marketplace-vortex-1o89.onrender.com
 
 * Node.js
 * Express
