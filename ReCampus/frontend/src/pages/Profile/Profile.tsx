@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
-import { api } from "../../services/api";
+import api from "../../services/api";
 
 interface User {
   id: string;

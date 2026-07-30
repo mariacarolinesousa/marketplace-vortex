@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
-import { api } from "../../services/api";
+import api from "../../services/api";
 import type { Ad } from "../../types/Ad";
 
 export default function AdDetails() {
