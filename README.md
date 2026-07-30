@@ -119,8 +119,6 @@ npm install
 
 Configure o arquivo `.env`:
 
-Exemplo:
-
 ```env
 DATABASE_URL=sua_connection_string
 JWT_SECRET=sua_chave_secreta
