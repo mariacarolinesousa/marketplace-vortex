@@ -1,5 +1,5 @@
 import { useState } from "react";
-import  api  from "../../services/api";
+import  api  from "../../services/apiClient";
 import Layout from "../../components/Layout/Layout";
 
 export default function CreateAd() {

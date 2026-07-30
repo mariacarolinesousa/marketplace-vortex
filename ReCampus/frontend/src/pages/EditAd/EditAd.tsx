@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
-import api from "../../services/api";
+import api from "../../services/apiClient";
 
 export default function EditAd() {
   const { id } = useParams();

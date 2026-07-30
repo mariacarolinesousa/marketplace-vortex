@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import AdCard from "../../components/AdCard/AdCard";
-import api from "../../services/api";
+import api from "../../services/apiClient";
 import type{ Ad } from "../../types/Ad";
 import Searchbar from "../../components/Searchbar/Searchbar";
 import Filters from "../../components/Filters/Filters";
