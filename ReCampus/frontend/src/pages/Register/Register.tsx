@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import api from "../../services/apiClient";
@@ -11,7 +11,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function handleRegister(e: any) {
+  async function handleRegister(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     try {

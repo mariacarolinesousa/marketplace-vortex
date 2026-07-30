@@ -16,29 +16,37 @@ export default function EditAd() {
   const [isDonation, setIsDonation] = useState(false);
   const [image, setImage] = useState<File | null>(null);
 
-  async function loadAd() {
-    try {
-      const response = await api.get(`/ads/${id}`);
-
-      const ad = response.data;
-
-      setTitle(ad.title);
-      setDescription(ad.description);
-      setCategory(ad.category);
-      setCondition(ad.condition);
-      setLocation(ad.location);
-      setPrice(ad.price ?? "");
-      setIsDonation(ad.isDonation);
-
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao carregar anúncio.");
-    }
-  }
-
   useEffect(() => {
-    loadAd();
-  }, []);
+    let isMounted = true;
+
+    async function loadAd() {
+      try {
+        const response = await api.get(`/ads/${id}`);
+        const ad = response.data;
+
+        if (!isMounted) {
+          return;
+        }
+
+        setTitle(ad.title);
+        setDescription(ad.description);
+        setCategory(ad.category);
+        setCondition(ad.condition);
+        setLocation(ad.location);
+        setPrice(ad.price ?? "");
+        setIsDonation(ad.isDonation);
+      } catch (error) {
+        console.error(error);
+        alert("Erro ao carregar anúncio.");
+      }
+    }
+
+    void loadAd();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

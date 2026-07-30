@@ -8,17 +8,26 @@ import type { Ad } from "../../types/Ad";
 export default function MyAds() {
   const [ads, setAds] = useState<Ad[]>([]);
 
-  async function loadAds() {
-    try {
-      const response = await api.get("/ads/my");
-      setAds(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   useEffect(() => {
-    loadAds();
+    let isMounted = true;
+
+    async function fetchAds() {
+      try {
+        const response = await api.get("/ads/my");
+
+        if (isMounted) {
+          setAds(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    void fetchAds();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   async function handleDelete(id: string) {
@@ -33,7 +42,8 @@ export default function MyAds() {
 
       alert("Anúncio excluído com sucesso!");
 
-      loadAds();
+      const response = await api.get("/ads/my");
+      setAds(response.data);
     } catch (error) {
       console.error(error);
       alert("Erro ao excluir anúncio.");

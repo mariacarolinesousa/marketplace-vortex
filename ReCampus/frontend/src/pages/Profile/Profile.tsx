@@ -11,17 +11,23 @@ interface User {
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
 
-  async function loadProfile() {
-    try {
-      const response = await api.get("/users/me");
-      setUser(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   useEffect(() => {
-    loadProfile();
+    let isMounted = true;
+
+    api
+      .get<User>("/users/me")
+      .then((response) => {
+        if (isMounted) {
+          setUser(response.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   if (!user) {

@@ -13,28 +13,41 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
 
-  async function loadAds() {
-  try {
-    const response = await api.get("/ads", {
-  params: {
-    search,
-    },
-  });
+  useEffect(() => {
+    let isMounted = true;
 
-    console.log("Resposta da API:", response.data);
+    async function loadAds() {
+      setLoading(true);
 
-    setAds(response.data.ads ?? response.data);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-}
+      try {
+        const response = await api.get("/ads", {
+          params: {
+            search,
+          },
+        });
 
-useEffect(() => {
-  loadAds();
-}, [search]);
-const filteredAds = ads.filter((ad) => {
+        console.log("Resposta da API:", response.data);
+
+        if (isMounted) {
+          setAds(response.data.ads ?? response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void loadAds();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [search]);
+
+  const filteredAds = ads.filter((ad) => {
 
   const matchesTitle = ad.title
     .toLowerCase()
