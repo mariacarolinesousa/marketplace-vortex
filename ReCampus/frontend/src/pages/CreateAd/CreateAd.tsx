@@ -121,6 +121,13 @@ export default function CreateAd() {
 
         <input
           type="file"
+          className="block w-full text-sm text-gray-700
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-lg file:border-0
+          file:text-sm  file:font-semibold
+          file:bg-green-600 file:text-white
+          hover:file:bg-green-700
+          cursor-pointer"
           accept="image/*"
           onChange={(e) => {
             if (e.target.files?.length) {
@@ -131,7 +138,7 @@ export default function CreateAd() {
 
         <button
           className="bg-blue-600 text-white px-6 py-3 rounded"
-        >
+          >
           Publicar anúncio
         </button>
       </form>

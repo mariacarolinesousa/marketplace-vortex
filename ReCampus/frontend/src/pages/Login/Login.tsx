@@ -58,14 +58,16 @@ export default function Login() {
       <h1 className="text-3xl font-bold mb-6">
         Entrar
       </h1>
-
-      <Link
-      to="/register"
-      className="block text-center text-blue-600 mt-4 hover:underline"
-      >
-      Criar uma conta
-      </Link>
-
+      
+    <Link
+    to="/register"
+    className="flex justify-center bg-green-600 text-white text-sm px-3 py-1.5 rounded-md 
+    hover:bg-green-70
+    transition"
+    >
+    Criar uma conta
+    </Link>
+  
       <form
         onSubmit={handleLogin}
         className="space-y-4"

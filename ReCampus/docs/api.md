@@ -1,11 +1,7 @@
-auth: 
+autenticação:
 POST /auth/register
 
 POST /auth/login
-
-usuário:
-GET /users/me
-
 anúncios:
 GET /ads
 

@@ -86,10 +86,10 @@ ReCampus
      backend
         src
          controllers
-    │    routes
-    │    services
-    │    middlewares
-    │    config
+         routes
+         services
+         middlewares
+         config
 ```
 
 #  Como executar o projeto

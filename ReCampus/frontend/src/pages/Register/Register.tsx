@@ -99,13 +99,6 @@ export default function Register() {
           Cadastrar
         </button>
 
-        <Link
-        to="/register"
-        className="block text-center text-blue-600 mt-4"
-        >
-        Ainda não tenho conta
-        </Link>
-
       </form>
 
 

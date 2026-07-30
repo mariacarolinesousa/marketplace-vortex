@@ -1,34 +1,31 @@
-# Modelagem do Banco
+# Banco de Dados
 
-## Entidades
+## User
 
-### User
+ Campo  Tipo 
+ id  UUID 
+ name  String 
+ email  String 
+ password  String 
 
-- id
-- name
-- email
-- password
-- createdAt
 
-### Category
+## Ad
 
-- id
-- name
+ Campo  Tipo 
 
-### Ad
+ id  UUID 
+ title  String 
+ description  String 
+ category  String 
+ condition  String 
+ location  String 
+ price  Decimal 
+ imageUrl  String 
+ isDonation  Boolean 
+ userId  UUID 
 
-- id
-- title
-- description
-- price
-- imageUrl
-- isDonation
-- createdAt
-- categoryId
-- userId
+## Relacionamento
 
-## Relacionamentos
+User
 
-User 1:N Ad
-
-Category 1:N Ad
+Ad (1:N)
