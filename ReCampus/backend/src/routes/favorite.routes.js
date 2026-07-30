@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const FavoriteController_1 = require("../controllers/FavoriteController");
+const auth_1 = require("../middlewares/auth");
+const router = (0, express_1.Router)();
+const favoriteController = new FavoriteController_1.FavoriteController();
+router.post("/:adId", auth_1.auth, favoriteController.create.bind(favoriteController));
+router.get("/", auth_1.auth, favoriteController.list.bind(favoriteController));
+router.delete("/:adId", auth_1.auth, favoriteController.delete.bind(favoriteController));
+exports.default = router;

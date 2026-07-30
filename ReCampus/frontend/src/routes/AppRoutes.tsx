@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import CreateAd from "../pages/CreateAd/CreateAd";
-import PrivateRoute from "./PrivateRoute";
+import PrivateRoute from "../components/PrivateRoute";
 import AdDetails from "../pages/AdDetails/AdDetails";
 import MyAds from "../pages/MyAds/MyAds";
 import EditAd from "../pages/EditAd/EditAd";

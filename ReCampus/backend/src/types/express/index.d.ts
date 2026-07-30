@@ -1,7 +1,7 @@
-import { Multer } from "multer"; 
-declare namespace Express {
-  export interface Request {
-    userId: string;
-    file?: Multer.file;
+import "express-serve-static-core";
+
+declare module "express-serve-static-core" {
+  interface Request {
+    userId?: string;
   }
 }

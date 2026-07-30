@@ -32,6 +32,10 @@ export class AdController {
 
     const userId = req.userId;
 
+    if (!userId) {
+      return res.status(401).json({ message: "Usuário não autenticado." });
+    }
+
     if (!req.file) {
       return res.status(400).json({
         message: "Imagem obrigatória.",
@@ -50,7 +54,7 @@ export class AdController {
         price,
         imageUrl,
         isDonation,
-        userId,
+        userId: String(userId),
       },
     });
 
@@ -114,7 +118,7 @@ const ads = await prisma.ad.findMany({
 
     try {
 
-      const { id } = req.params;
+      const id = String(req.params.id);
 
 
       const ad = await prisma.ad.findUnique({
@@ -213,7 +217,7 @@ const ads = await prisma.ad.findMany({
 
     try {
 
-      const { id } = req.params;
+      const id = String(req.params.id);
       const userId = req.userId;
       const {
       title,
@@ -334,7 +338,7 @@ const ads = await prisma.ad.findMany({
 
     try {
 
-      const { id } = req.params;
+      const id = String(req.params.id);
 
       const userId = req.userId;
 

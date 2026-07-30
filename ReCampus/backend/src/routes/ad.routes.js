@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const AdController_1 = require("../controllers/AdController");
+const auth_1 = require("../middlewares/auth");
+const multer_1 = require("../config/multer");
+const router = (0, express_1.Router)();
+const controller = new AdController_1.AdController();
+router.post("/", auth_1.auth, multer_1.upload.single("image"), controller.create.bind(controller));
+router.get("/", controller.list.bind(controller));
+router.get("/my", auth_1.auth, controller.myAds.bind(controller));
+router.get("/:id", controller.show.bind(controller));
+router.put("/:id", auth_1.auth, multer_1.upload.single("image"), controller.update.bind(controller));
+router.delete("/:id", auth_1.auth, controller.delete.bind(controller));
+exports.default = router;

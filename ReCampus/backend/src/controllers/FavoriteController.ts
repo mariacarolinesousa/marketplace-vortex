@@ -5,8 +5,14 @@ export class FavoriteController {
 
   async create(req: Request, res: Response) {
     try {
+      if (!req.userId) {
+        return res.status(401).json({
+          message: "Usuário não autenticado."
+        });
+      }
+
       const userId = req.userId;
-      const { adId } = req.params;
+      const adId = String(req.params.adId);
 
       const favorite = await prisma.favorite.create({
         data: {
@@ -28,6 +34,12 @@ export class FavoriteController {
 
   async list(req: Request, res: Response) {
     try {
+      if (!req.userId) {
+        return res.status(401).json({
+          message: "Usuário não autenticado."
+        });
+      }
+
       const favorites = await prisma.favorite.findMany({
         where: {
           userId: req.userId
@@ -59,8 +71,13 @@ export class FavoriteController {
 
   async delete(req: Request, res: Response) {
     try {
+      if (!req.userId) {
+        return res.status(401).json({
+          message: "Usuário não autenticado."
+        });
+      }
 
-      const { adId } = req.params;
+      const adId = String(req.params.adId);
 
       await prisma.favorite.delete({
         where: {
