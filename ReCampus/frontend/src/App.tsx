@@ -7,47 +7,44 @@ import Register from "./pages/Register/Register";
 import CreateAd from "./pages/CreateAd/CreateAd";
 import Landing from "./pages/Landing/Landing";
 
-
 export default function App() {
   return (
     <Routes>
-
       
-
-      <Route 
-        path="/" 
-        element={<Home />} 
-      />
-      
-      <Route 
-        path="/login" 
-        element={<Login />} 
-      />
-
-      <Route 
-        path="/register" 
-        element={<Register />} 
-      />
-
-      <Route path="/create" element={<CreateAd />} />
-
-      <Route 
-        path="/my-ads" 
-        element={<MyAds />} 
-      />
-
-      <Route 
-        path="/profile" 
-        element={<Profile />} 
+      <Route
+        path="/"
+        element={<Landing />}
       />
 
       <Route
-      path="/landing"
-      element={<Landing />}
+        path="/home"
+        element={<Home />}
       />
 
-    </Routes>
+      <Route
+        path="/login"
+        element={<Login />}
+      />
 
-    
+      <Route
+        path="/register"
+        element={<Register />}
+      />
+
+      <Route
+        path="/create"
+        element={<CreateAd />}
+      />
+
+      <Route
+        path="/my-ads"
+        element={<MyAds />}
+      />
+
+      <Route
+        path="/profile"
+        element={<Profile />}
+      />
+    </Routes>
   );
 }

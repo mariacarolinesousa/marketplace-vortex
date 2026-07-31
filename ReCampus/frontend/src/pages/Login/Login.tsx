@@ -33,7 +33,7 @@ export default function Login() {
 
       alert("Login realizado com sucesso!");
 
-      navigate("/");
+      navigate("/home");
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
