@@ -1,5 +1,14 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  type FormEvent,
+  useEffect,
+  useState,
+} from "react";
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import axios from "axios";
+
 import Layout from "../../components/Layout/Layout";
 import api from "../../services/apiClient";
 
@@ -13,82 +22,114 @@ export default function EditAd() {
   const [condition, setCondition] = useState("");
   const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
-  const [isDonation, setIsDonation] = useState(false);
-  const [image, setImage] = useState<File | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    let isMounted = true;
-
     async function loadAd() {
+      if (!id) {
+        setError("ID do anúncio não informado.");
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await api.get(`/ads/${id}`);
-        const ad = response.data;
 
-        if (!isMounted) {
-          return;
+        const ad = response.data.ad ?? response.data;
+
+        setTitle(ad.title ?? "");
+        setDescription(ad.description ?? "");
+        setCategory(ad.category ?? "");
+        setCondition(ad.condition ?? "");
+        setLocation(ad.location ?? "");
+        setPrice(
+          ad.price !== null && ad.price !== undefined
+            ? String(ad.price)
+            : ""
+        );
+      } catch (error: unknown) {
+        console.error("Erro ao carregar anúncio:", error);
+
+        if (axios.isAxiosError(error)) {
+          setError(
+            error.response?.data?.message ||
+              "Não foi possível carregar o anúncio."
+          );
+        } else {
+          setError("Erro inesperado ao carregar o anúncio.");
         }
-
-        setTitle(ad.title);
-        setDescription(ad.description);
-        setCategory(ad.category);
-        setCondition(ad.condition);
-        setLocation(ad.location);
-        setPrice(ad.price ?? "");
-        setIsDonation(ad.isDonation);
-      } catch (error) {
-        console.error(error);
-        alert("Erro ao carregar anúncio.");
+      } finally {
+        setLoading(false);
       }
     }
 
     void loadAd();
-
-    return () => {
-      isMounted = false;
-    };
   }, [id]);
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleSubmit(
+    event: FormEvent<HTMLFormElement>
+  ) {
+    event.preventDefault();
 
-    const formData = new FormData();
-
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("category", category);
-    formData.append("condition", condition);
-    formData.append("location", location);
-    formData.append("price", price);
-    formData.append("isDonation", String(isDonation));
-
-    if (image) {
-      formData.append("image", image);
+    if (!id) {
+      alert("ID do anúncio não informado.");
+      return;
     }
 
     try {
-      await api.put(`/ads/${id}`, formData,
-        { 
-          headers: {
-            "Content-Type": "multipart/form-data"
-        }
-      }
-   );
+      setSaving(true);
+
+      await api.put(`/ads/${id}`, {
+        title,
+        description,
+        category,
+        condition,
+        location,
+        price: price ? Number(price) : null,
+      });
 
       alert("Anúncio atualizado com sucesso!");
 
       navigate("/my-ads");
+    } catch (error: unknown) {
+      console.error("Erro ao atualizar anúncio:", error);
 
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao atualizar anúncio.");
+      if (axios.isAxiosError(error)) {
+        alert(
+          error.response?.data?.message ||
+            error.response?.data?.error ||
+            "Não foi possível atualizar o anúncio."
+        );
+      } else {
+        alert("Erro inesperado ao atualizar o anúncio.");
+      }
+    } finally {
+      setSaving(false);
     }
+  }
+
+  if (loading) {
+    return (
+      <Layout>
+        <p>Carregando anúncio...</p>
+      </Layout>
+    );
+  }
+
+  if (error) {
+    return (
+      <Layout>
+        <p className="text-red-600">{error}</p>
+      </Layout>
+    );
   }
 
   return (
     <Layout>
-      <div className="max-w-3xl mx-auto p-8">
-
-        <h1 className="text-3xl font-bold mb-8">
+      <div className="max-w-2xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">
           Editar anúncio
         </h1>
 
@@ -96,80 +137,82 @@ export default function EditAd() {
           onSubmit={handleSubmit}
           className="space-y-4"
         >
-
           <input
             className="border p-3 rounded w-full"
+            type="text"
             placeholder="Título"
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(event) =>
+              setTitle(event.target.value)
+            }
+            required
           />
 
           <textarea
             className="border p-3 rounded w-full"
             placeholder="Descrição"
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(event) =>
+              setDescription(event.target.value)
+            }
+            required
           />
 
           <input
             className="border p-3 rounded w-full"
+            type="text"
             placeholder="Categoria"
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(event) =>
+              setCategory(event.target.value)
+            }
+            required
           />
 
           <input
             className="border p-3 rounded w-full"
+            type="text"
             placeholder="Condição"
             value={condition}
-            onChange={(e) => setCondition(e.target.value)}
+            onChange={(event) =>
+              setCondition(event.target.value)
+            }
+            required
           />
 
           <input
             className="border p-3 rounded w-full"
+            type="text"
             placeholder="Localização"
             value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            onChange={(event) =>
+              setLocation(event.target.value)
+            }
+            required
           />
 
           <input
-            type="number"
             className="border p-3 rounded w-full"
+            type="number"
+            step="0.01"
+            min="0"
             placeholder="Preço"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
-          />
-
-          <label className="flex items-center gap-2">
-
-            <input
-              type="checkbox"
-              checked={isDonation}
-              onChange={(e) => setIsDonation(e.target.checked)}
-            />
-
-            É uma doação
-
-          </label>
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              if (e.target.files?.length) {
-                setImage(e.target.files[0]);
-              }
-            }}
+            onChange={(event) =>
+              setPrice(event.target.value)
+            }
           />
 
           <button
-            className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700"
+            type="submit"
+            disabled={saving}
+            className="bg-blue-600 text-white px-6 py-3 rounded w-full disabled:opacity-60"
           >
-            Salvar alterações
+            {saving
+              ? "Salvando..."
+              : "Salvar alterações"}
           </button>
-
         </form>
-
       </div>
     </Layout>
   );
