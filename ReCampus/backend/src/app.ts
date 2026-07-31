@@ -20,3 +20,5 @@ app.use(
 app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/ads", adRoutes);
+
+export default app;
