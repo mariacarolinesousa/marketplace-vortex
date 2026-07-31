@@ -1,73 +1,88 @@
 import { type FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import  api  from "../../services/apiClient";
-import { Link } from "react-router-dom";
-
-
+import api from "../../services/apiClient";
 
 export default function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    if (!email.trim() || !password.trim()) {
+      alert("Preencha o e-mail e a senha.");
+      return;
+    }
+
     try {
+      setLoading(true);
+
       const response = await api.post("/auth/login", {
-        email,
+        email: email.trim(),
         password,
       });
 
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
+      console.log("Resposta do login:", response.data);
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
-      );
+      if (!response.data.token) {
+        throw new Error("O backend não retornou o token.");
+      }
+
+      localStorage.setItem("token", response.data.token);
+
+      if (response.data.user) {
+        localStorage.setItem(
+          "user",
+          JSON.stringify(response.data.user)
+        );
+      }
 
       alert("Login realizado com sucesso!");
 
       navigate("/home");
-
-    } catch (error) {
+    } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        console.log(
-          "Erro backend:",
-          error.response?.data
-        );
+        console.error("Status:", error.response?.status);
+        console.error("Resposta backend:", error.response?.data);
+        console.error("Mensagem Axios:", error.message);
+        console.error("Código:", error.code);
 
-        alert(
+        const mensagem =
           error.response?.data?.message ||
-          "Erro ao fazer login"
-        );
+          error.response?.data?.error ||
+          error.message ||
+          "Não foi possível realizar o login.";
+
+        alert(mensagem);
+      } else if (error instanceof Error) {
+        console.error("Erro:", error.message);
+        alert(error.message);
       } else {
-        console.error(error);
-        alert("Erro desconhecido");
+        console.error("Erro desconhecido:", error);
+        alert("Ocorreu um erro inesperado.");
       }
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <div className="max-w-md mx-auto mt-20">
+    <div className="max-w-md mx-auto mt-20 px-4">
       <h1 className="text-3xl font-bold mb-6">
         Entrar
       </h1>
-      
-    <Link
-    to="/register"
-    className="flex justify-center bg-green-600 text-white text-sm px-3 py-1.5 rounded-md 
-    hover:bg-green-70
-    transition"
-    >
-    Criar uma conta
-    </Link>
-  
+
+      <Link
+        to="/register"
+        className="flex justify-center bg-green-600 text-white text-sm px-3 py-2 rounded-md hover:bg-green-700 transition mb-5"
+      >
+        Criar uma conta
+      </Link>
+
       <form
         onSubmit={handleLogin}
         className="space-y-4"
@@ -78,6 +93,8 @@ export default function Login() {
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          required
         />
 
         <input
@@ -86,13 +103,16 @@ export default function Login() {
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="current-password"
+          required
         />
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-6 py-3 rounded w-full"
+          disabled={loading}
+          className="bg-blue-600 text-white px-6 py-3 rounded w-full disabled:opacity-60"
         >
-          Entrar
+          {loading ? "Entrando..." : "Entrar"}
         </button>
       </form>
     </div>
