@@ -43,7 +43,7 @@ O ReCampus possui suporte a PWA, permitindo:
 
 #  Tecnologias utilizadas
 
-## Frontend   https://marketplace-vortex-one.vercel.app/
+## Frontend   marketplace-vortex-g7tw.vercel.app
 
 * React
 * TypeScript
