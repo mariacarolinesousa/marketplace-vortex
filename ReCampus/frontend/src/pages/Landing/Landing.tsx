@@ -78,7 +78,7 @@ export default function Landing() {
 
 
             <Link
-              to="/"
+              to="/home"
               className="border border-white px-8 py-4 rounded-xl font-bold"
             >
               Buscar itens
