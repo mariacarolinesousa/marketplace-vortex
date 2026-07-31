@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import Layout from "../../components/Layout/Layout";
-import api from "../../services/apiClient";
 
 interface User {
   id: string;
@@ -9,63 +9,72 @@ interface User {
 }
 
 export default function Profile() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user] = useState<User | null>(() => {
+    try {
+      const storedUser = localStorage.getItem("user");
 
-  useEffect(() => {
-    let isMounted = true;
+      if (!storedUser) {
+        return null;
+      }
 
-    api
-      .get<User>("/users/me")
-      .then((response) => {
-        if (isMounted) {
-          setUser(response.data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+      return JSON.parse(storedUser) as User;
+    } catch (error) {
+      console.error("Erro ao ler usuário salvo:", error);
+      return null;
+    }
+  });
 
   if (!user) {
     return (
       <Layout>
-        <p>Carregando...</p>
+        <div className="max-w-xl mx-auto">
+          <h1 className="text-3xl font-bold mb-4">
+            Meu perfil
+          </h1>
+
+          <p className="text-red-600 mb-4">
+            Não foi possível encontrar os dados do usuário.
+          </p>
+
+          <Link
+            to="/login"
+            className="inline-block bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700"
+          >
+            Entrar novamente
+          </Link>
+        </div>
       </Layout>
     );
   }
 
   return (
     <Layout>
-      <div className="max-w-xl mx-auto bg-white rounded-xl shadow p-8">
-
-        <h1 className="text-3xl font-bold mb-8">
-          Meu Perfil
+      <div className="max-w-xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">
+          Meu perfil
         </h1>
 
-        <div className="space-y-6">
-
+        <div className="border rounded-lg p-6 space-y-5 bg-white">
           <div>
-            <label className="font-semibold">
+            <p className="text-sm text-gray-500">
               Nome
-            </label>
+            </p>
 
-            <p>{user.name}</p>
+            <p className="text-lg font-medium">
+              {user.name}
+            </p>
           </div>
 
           <div>
-            <label className="font-semibold">
+            <p className="text-sm text-gray-500">
               E-mail
-            </label>
+            </p>
 
-            <p>{user.email}</p>
+            <p className="text-lg font-medium">
+              {user.email}
+            </p>
           </div>
-
         </div>
-
       </div>
     </Layout>
   );
