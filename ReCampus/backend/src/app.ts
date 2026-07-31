@@ -1,27 +1,22 @@
 import express from "express";
 import cors from "cors";
-import routes from "./routes";
+import authRoutes from "./routes/auth.routes.js";
+import adRoutes from "./routes/ad.routes.js";
+
 
 const app = express();
 
 app.use(
   cors({
     origin: [
-      "https://marketplace-vortex-ten.vercel.app",
-      process.env.FRONTEND_URL,
-    ].filter(Boolean) as string[],
-    credentials: true,
+      "http://localhost:5173",
+      "https://marketplace-vortex-g7tw.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
 app.use(express.json());
-
-app.get("/", (_req, res) => {
-  return res.status(200).json({
-    message: "API do ReCampus funcionando!",
-  });
-});
-
-app.use(routes);
-
-export default app;
+app.use("/auth", authRoutes);
+app.use("/ads", adRoutes);
