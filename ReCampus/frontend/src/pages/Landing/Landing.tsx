@@ -72,11 +72,8 @@ export default function Landing() {
 
           <div className="flex gap-4 mt-10">
 
-            <Link
-              to="/register"
-              className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold"
-            >
-              Começar agora
+            <Link to="/home">
+            <button>Entrar no ReCampus</button>
             </Link>
 
 
