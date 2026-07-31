@@ -1,17 +1,27 @@
 import express from "express";
 import cors from "cors";
+import routes from "./routes";
 
 const app = express();
 
-//fazendo requisições com o frontend
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      process.env.FRONTEND_URL,
+    ].filter(Boolean) as string[],
+    credentials: true,
+  })
+);
 
-//recebendo json 
 app.use(express.json());
 
-//fazendo rota de teste 
-app.get("/", (req, res) => { res.json({ message: "API do ReCampus funcionando!"
+app.get("/", (_req, res) => {
+  return res.status(200).json({
+    message: "API do ReCampus funcionando!",
+  });
 });
-});
+
+app.use(routes);
 
 export default app;
