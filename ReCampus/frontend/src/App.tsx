@@ -6,7 +6,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import CreateAd from "./pages/CreateAd/CreateAd";
 import Landing from "./pages/Landing/Landing";
-import AdDetails from "./pages/AdDetails/AdDetails";
+import EditAd from "./pages/EditAd/EditAd";
 
 export default function App() {
   return (
@@ -25,7 +25,10 @@ export default function App() {
 
       <Route path="/profile" element={<Profile />} />
 
-      <Route path="/ads/:id" element={<AdDetails />} />
+      <Route
+        path="/ads/edit/:id"
+        element={<EditAd />}
+      />
     </Routes>
   );
 }
