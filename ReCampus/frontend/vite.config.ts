@@ -13,6 +13,7 @@ export default defineConfig({
       short_name: "ReCampus",
       description: "Marketplace universitário",
       theme_color: "#2563eb",
+      background_color: "#2563eb",
       display: "standalone",
       icons: [
         {
