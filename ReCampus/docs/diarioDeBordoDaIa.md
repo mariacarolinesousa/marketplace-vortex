@@ -1,9 +1,7 @@
 # Diário de Bordo da Inteligência Artificial
 
 ## 1. Ferramenta utilizada
-Durante o desenvolvimento do ReCampus, utilizei principalmente o ChatGPT como
-ferramenta de apoio técnico e de aprendizagem
-A inteligência artificial foi usada para:
+Durante o desenvolvimento do ReCampus, utilizei o ChatGPT para:
 - compreender o funcionamento de uma PWA
 - investigar erros de instalação e de ícones
 - revisar configurações do Vite
@@ -14,7 +12,7 @@ A IA foi utilizada como ferramenta de orientação
 ## 2. Uso da IA na implementação da PWA
 O frontend do ReCampus foi desenvolvido com React, TypeScript e Vite. Um dos
 requisitos do desafio era transformar a aplicação em uma Progressive Web App
-Inicialmente, utilizei a IA para entender as diferenças entre um site responsivo e
+Inicialmente, utilizei a IA e o youtube para entender as diferenças entre um site responsivo e
 uma PWA. Com isso, compreendi que apenas adaptar a interface para dispositivos
 móveis não era suficiente
 Para que a aplicação pudesse ser reconhecida como PWA, também seriam necessários:
@@ -25,7 +23,6 @@ Para que a aplicação pudesse ser reconhecida como PWA, também seriam necessá
 - modo de exibição `standalone`;
 - um Service Worker registrado;
 - execução da aplicação por HTTPS em produção.
-
 A IA também ajudou na configuração do `vite-plugin-pwa`, responsável por gerar o
 manifesto e o Service Worker durante o processo de build
 Depois da configuração, realizei testes no navegador para verificar:
@@ -37,9 +34,8 @@ Depois da configuração, realizei testes no navegador para verificar:
 - se os arquivos essenciais continuavam disponíveis após o carregamento inicial
 
 ## 3. Estratégia de engenharia de prompts
-
 Os prompts abaixo foram reconstruídos a partir das dúvidas e dos problemas
-enfrentados durante o desenvolvimento.
+enfrentados durante o desenvolvimento
 
 ### Prompt 1 — Estruturação da PWA
 > Tenho um frontend desenvolvido com React, TypeScript e Vite para um marketplace
@@ -94,7 +90,7 @@ resultados no navegador.
 ## 5. Avaliação do uso da inteligência artificial
 A inteligência artificial acelerou a pesquisa e ajudou a interpretar erros que eu
 ainda não conhecia. Entretanto, ela não substituiu os testes nem a análise do
-projeto.
+projeto
 Durante o desenvolvimento, foi necessário:
 1. apresentar o problema com contexto
 2. analisar a solução sugerida
@@ -104,11 +100,11 @@ Durante o desenvolvimento, foi necessário:
 6. retornar à IA com as mensagens completas
 7. testar novamente
 Portanto, a IA foi usada como uma ferramenta de aprendizagem, revisão e apoio à
-resolução de problemas, e não como uma substituição da compreensão técnica.
+resolução de problemas, e não como uma substituição da compreensão técnica
 
 ## 6. Resultado
 Ao final do processo, o ReCampus passou a possuir a estrutura necessária para ser
-apresentado como uma aplicação web progressiva, front e back end, responsividade e suporte à instalação.
+apresentado como uma aplicação web progressiva, front e back end, responsividade e suporte à instalação
 
 O processo também contribuiu para meu aprendizado sobre:
 - arquitetura de aplicações web
